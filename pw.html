@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background-color: #4b5563;
+            #display: flex;
+            justify-content: center; /* 垂直居中 */
+            align-items: center; /* 水平居中 */
+        }
+        .div-container {
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        background-color: #f5f5f5;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin: 20px;
+        justify-content: center; /* 垂直居中 */
+        align-items: center; /* 水平居中 */
+        }
+        h2, h3 {
+          color: red;
+        }
+        input[type="number"] {
+            border: 1px solid #ccc; /* 设置边框样式 */
+            border-radius: 5px; /* 设置边框圆角 */
+            outline: none; /* 去除默认的外边框 */
+            font-size: 16px; /* 设置字体大小 */
+        }
+        label {
+            width: 160px;
+            background-color: #3498db; /* 背景颜色 */
+            color: #fff; /* 文字颜色 */
+            padding: 10px 20px; /* 内边距 */
+            border: none; /* 去除边框 */
+            border-radius: 5px; /* 圆角边框 */
+            cursor: pointer; /* 鼠标指针样式 */
+            margin: 10px;
+        }
+        label:hover {
+            background-color: #2980b9; /* 鼠标悬停时的背景颜色 */
+        }
+        button {
+            background-color: #3498db; /* 背景颜色 */
+            color: #fff; /* 文字颜色 */
+            padding: 10px 20px; /* 内边距 */
+            border: none; /* 去除边框 */
+            border-radius: 5px; /* 圆角边框 */
+            cursor: pointer; /* 鼠标指针样式 */
+            font-size: 16px; /* 设置字体大小 */
+            width: 200px;
+        }
+
+        /* 按钮悬停样式 */
+        button:hover {
+            background-color: #2980b9; /* 鼠标悬停时的背景颜色 */
+        }
+        /* 样式input元素 */
+        input[type="text"] {
+            width: 200px; /* 设置宽度 */
+            height: 30px;
+            #padding: 10px; /* 设置内边距 */
+            border: 1px solid #ccc; /* 设置边框样式 */
+            border-radius: 5px; /* 设置边框圆角 */
+            outline: none; /* 去除默认的外边框 */
+            font-size: 16px; /* 设置字体大小 */
+            color: red;
+        }
+
+        /* 鼠标悬停时的样式 */
+        input[type="text"]:hover {
+            border-color: #3498db; /* 修改边框颜色 */
+        }
+
+        /* 获得焦点时的样式 */
+        input[type="text"]:focus {
+            border-color: #e74c3c; /* 修改边框颜色 */
+            box-shadow: 0 0 5px #e74c3c; /* 添加阴影效果 */
+        }
+    </style>
+</head>
+<body>
+    <div class="div-container">
+        <h2>密码生成器</h2>
+        <label for="password-length">密码位数: <input type="number" id="password-length" min="8" max="50" value="20"> </label>
+        
+        <br>
+        <label for="numbers"><input type="checkbox" id="numbers" checked> 包含数字</label>
+        <label for="symbols"><input type="checkbox" id="symbols"        > 包含符号</label>
+        <br>
+        <button onclick="generatePassword()">生成密码</button>
+        <br>
+        <input type="text" id="password" readonly>
+        <h3>点击密码可以复制</h3>
+    </div>
+    
+    <script>
+        function generatePassword() {
+            const length = document.getElementById("password-length").value;
+            const includeNumbers = document.getElementById("numbers").checked;
+            const includeSymbols = document.getElementById("symbols").checked;
+
+            const uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
+            const numberChars = "0123456789";
+            const symbolChars = "!@#$%^&*()_-+=<>?";
+
+            let allowedChars = uppercaseChars + lowercaseChars;
+            if (includeNumbers) allowedChars += numberChars;
+            if (includeSymbols) allowedChars += symbolChars;
+
+            let password = "";
+            for (let i = 0; i < length; i++) {
+                const randomIndex = Math.floor(Math.random() * allowedChars.length);
+                password += allowedChars[randomIndex];
+            }
+
+            document.getElementById("password").value = password;
+        }
+    </script>
+    <script>
+        // 获取密码input元素
+        const passwordInput = document.getElementById("password");
+        const messageElement = document.querySelector("h3");
+
+        // 点击密码input时触发复制操作
+        passwordInput.addEventListener("click", function() {
+        // 选择文本内容
+        passwordInput.select();
+        // 复制文本到剪切板
+        document.execCommand("copy");
+
+        // 显示提示信息
+        messageElement.textContent = "密码已复制到剪切板";
+        setTimeout(function() {
+        messageElement.textContent = "点击密码可以复制";
+        }, 1000);
+        
+        });
+    </script>
+
+</body>
+</html>
